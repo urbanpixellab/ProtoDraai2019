@@ -7,6 +7,8 @@ int state = 0; //0 is calibration
 bool isCalibrated = false;
 //unsigned long maxStep = 10;
 //unsigned long thisStep = 0;
+// add schematic and thoughts
+
 
 void setup() {
   // Sets the two pins as Outputs
@@ -18,6 +20,7 @@ void setup() {
   pinMode(7,INPUT); //blouw
   state = 0;
 }
+
 void loop() 
 {
   if(!isCalibrated) doCalibration();
@@ -61,39 +64,15 @@ void loop()
       // statements
       break;
   }
-  
-  /*
-  digitalWrite(dirPin,LOW); // Enables the motor to move in a particular direction
-  
-  // Makes 200 pulses for making one full cycle rotation
-  for(int x = 0; x < 20000; x++) {
-    digitalWrite(stepPin,HIGH); 
-    delayMicroseconds(500); 
-    digitalWrite(stepPin,LOW); 
-    delayMicroseconds(500); 
-  }
-  delay(1000); // One second delay
-  
-  digitalWrite(dirPin,HIGH); //Changes the rotations direction
-  // Makes 400 pulses for making two full cycle rotation
-  for(int x = 0; x < 20000; x++) {
-    digitalWrite(stepPin,HIGH);
-    delayMicroseconds(500);
-    digitalWrite(stepPin,LOW);
-    delayMicroseconds(500);
-  }
-  delay(1000);
-  */
 }
 
 void doCalibration()
 {
-  
-      // calibration go backwards till microswitch, then one step back
-      // then go foreward till microswitch and one step back, the counted steps are the maximum and this is equals to 1
-      // then go to 0.5 as initial state which should be the half steps back
-      // statements
-      // when done set state to 1
+  // calibration go backwards till microswitch, then one step back
+  // then go foreward till microswitch and one step back, the counted steps are the maximum and this is equals to 1
+  // then go to 0.5 as initial state which should be the half steps back
+  // statements
+  // when done set state to 1
   isCalibrated = true;
   state = 1;
 }
