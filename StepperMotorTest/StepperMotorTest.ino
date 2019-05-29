@@ -86,14 +86,33 @@ void doCalibration()
 void doStep(int dir,int microPin,int stepTime)
 {
   stepDir = dir;
-  digitalWrite(enablePin,LOW);//enable
-  digitalWrite(dirPin,stepDir);
+  digitalWrite(enablePin,LOW);    //enable first
+  digitalWrite(dirPin,stepDir);   // then set direction
   delayMicroseconds(stepTime); 
   for(int x = 0; x < 100; x++) {//200
-      if(digitalRead(microPin) == true) return;
-      digitalWrite(stepPin,HIGH); 
-      delayMicroseconds(stepTime); 
-      digitalWrite(stepPin,LOW); 
-      delayMicroseconds(stepTime); 
+      if(digitalRead(microPin) == true)
+      {
+        // go one step back and return;
+        digitalWrite(dirPin,!dir);   //reverse direction
+        goStep(stepTime);
+        return;                         //and exit
+      }
+      else
+      {
+        goStep(stepTime);
+//      digitalWrite(stepPin,HIGH); 
+//      delayMicroseconds(stepTime); 
+//      digitalWrite(stepPin,LOW); 
+//      delayMicroseconds(stepTime); 
+      }
   }
 }
+
+void goStep(int stepTime)
+{
+  digitalWrite(stepPin,HIGH); 
+  delayMicroseconds(stepTime); 
+  digitalWrite(stepPin,LOW); 
+  delayMicroseconds(stepTime); 
+}
+
