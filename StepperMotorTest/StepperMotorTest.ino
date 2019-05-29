@@ -38,9 +38,9 @@ void loop()
   dirBtnA = digitalRead(6);
   dirBtnB = digitalRead(7);
 
-  Serial.print(microA);
-  Serial.print(":");
-  Serial.println(microB);
+//  Serial.print(microA);
+//  Serial.print(":");
+//  Serial.println(microB);
   switch (state) 
   {
     case 0:
@@ -53,15 +53,14 @@ void loop()
         digitalWrite(enablePin,HIGH);//disable
         return;
       }
+      else if(dirBtnA == true)
+      {
+        //check direction with killswitch maybe inverse
+        doStep(0,microA,100);
+      }
       else
       {
-        if(dirBtnA != dirBtnB)
-        {
-          stepDir = 1;
-          if(dirBtnA == 1) stepDir = 0; 
-          digitalWrite(dirPin,stepDir);
-          doStep(100);
-        }
+        doStep(1,microB,100);
       }
       break;
       
@@ -69,6 +68,7 @@ void loop()
 
       break;
   }
+  digitalWrite(enablePin,HIGH);//enable
 }
 
 void doCalibration()
@@ -83,41 +83,17 @@ void doCalibration()
   state = 1;
 }
 
-void doStep(int stepTime)
+void doStep(int dir,int microPin,int stepTime)
 {
-//  maxSteps++;
+  stepDir = dir;
   digitalWrite(enablePin,LOW);//enable
+  digitalWrite(dirPin,stepDir);
   delayMicroseconds(stepTime); 
   for(int x = 0; x < 100; x++) {//200
-    //check killswitch
-      if(killSwitch(digitalRead(microA),digitalRead(microB))) return;
+      if(digitalRead(microPin) == true) return;
       digitalWrite(stepPin,HIGH); 
       delayMicroseconds(stepTime); 
       digitalWrite(stepPin,LOW); 
       delayMicroseconds(stepTime); 
   }
-//  Serial.println(maxSteps);}
 }
-
-bool killSwitch(bool low, bool high)
-{
-  if(low != high) 
-  {
-    leftEnable = low;
-    rightEnable= high;
-    if(stepDir == 0) digitalWrite(stepPin,HIGH);
-    else  digitalWrite(stepPin,LOW);
-    for(int i = 0;i < 2;i++)
-    {
-      digitalWrite(stepPin,HIGH); 
-      delayMicroseconds(100); 
-      digitalWrite(stepPin,LOW); 
-      delayMicroseconds(100); 
-      
-    }
-    digitalWrite(enablePin,HIGH);//disable
-    return true;
-  }
-  else return false;
-}
-
