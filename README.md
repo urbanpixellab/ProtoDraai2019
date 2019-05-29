@@ -8,6 +8,7 @@
 ## BUilding Instruction
 * idea steppermotor ansluting and working wise
 * construction motor and frame
+ ** construction like a skeleton instead of a rectangle
  ** https://www.tech-specialist.com/nl/aluminium-profielen/profielverbinders?p=3
  ** https://www.tech-specialist.com/nl/aluminium-profielen
  ** https://www.tech-specialist.com/nl/aluminium-profiel-bsb-40x40-l-1007533
